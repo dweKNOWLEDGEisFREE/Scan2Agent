@@ -1,0 +1,6 @@
+#!/bin/sh
+PIDFILE=/var/tmp/scan2Agent.pid
+echo Stopping Scan2Agent server in /home/scan2/scan2Agent
+if [ -s $PIDFILE ]; then
+   kill `cat $PIDFILE`
+fi

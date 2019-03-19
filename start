@@ -1,0 +1,8 @@
+#!/bin/sh
+echo Starting Scan2Agent server in /home/scan2/scan2Agent
+trap '' 1
+cd /home/scan2/scan2Agent
+./tsk_http.py >/dev/null 2>&1 </dev/null &
+echo $! >/var/tmp/scan2Agent.pid
+./tsk_ctrl.py >/dev/null 2>&1 </dev/null &
+echo $! >>/var/tmp/scan2Agent.pid

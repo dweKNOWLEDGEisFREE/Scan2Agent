@@ -1,0 +1,1 @@
+{"LogFile": [{"age": 30, "number": 50}], "iTop": [{"usr": "sync2user", "url": "http://iTopServerIP/", "pwd": "sync2user"}], "mySQL": [{"password": "scan2db", "database": "scan2Agent_01", "host": "localhost", "user": "admin2Agent"}], "Crontab": [{"doQuery": true, "id": "Scan2Agent", "time": 0, "doClean": true}], "Agent": [{"synchro_user": "sync2user"}]}

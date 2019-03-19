@@ -1,0 +1,40 @@
+<parameters>
+  <itop_url>http://iTopServerIP/</itop_url>
+  <itop_login>sync2user</itop_login>
+  <itop_password>sync2user</itop_password>
+  
+  <synchro_user>sync2user</synchro_user>
+
+  <sql_host>localhost</sql_host>
+  <sql_database>scan2Agent_01</sql_database>
+  <sql_login>admin2Agent</sql_login>
+  <sql_password>scan2db</sql_password>
+
+
+  <ep4srclogicalinterface_query>
+    SELECT name,comment,speed,ip_list,macaddress,virtualmachine_id FROM iTop_LogicalInterface;
+  </ep4srclogicalinterface_query>
+
+  <ep4srcoslicence_query>
+    SELECT name,org_id AS primary_key,name,org_id,description,licence_key,osversion_id FROM iTop_OSLicence;
+  </ep4srcoslicence_query>
+
+  <ep4srcvirtualmachine_query>
+    SELECT name AS primary_key,name,org_id,virtualhost_id FROM iTop_VirtualMachine WHERE (org_id&gt;0 AND virtualhost_id&gt;0);
+  </ep4srcvirtualmachine_query>
+
+  <ep4srcsoftware_query>
+    SELECT name AS primary_key,name,vendor,version,type FROM iTop_Software;
+  </ep4srcsoftware_query>
+
+  <ep4srcothersoftware_query>
+    SELECT name AS primary_key,name,org_id,system_id,software_id FROM iTop_OtherSoftware WHERE org_id&gt;0;
+  </ep4srcothersoftware_query>
+
+
+  <console_log_level>6</console_log_level>
+  <syslog_log_level>-1</syslog_log_level>
+  <max_chunk_size>1000</max_chunk_size>
+  <itop_synchro_timeout>6000</itop_synchro_timeout>
+  <stop_on_synchro_error>no</stop_on_synchro_error>
+</parameters>
