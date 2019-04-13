@@ -1,20 +1,21 @@
-#!/usr/bin/python3.5
-# encoding: utf-8
-''' tsk_itop -- processing OCS Agent Data
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
-    tsk_itop will: * check the INBOX directory for compressed OCS Agent files.
-                   * unzip the OCS Agent Data Files.
-                   * analyzing the unziped XML file.
-                   * creating a CVS file out of the XML data file.
-                   * calling the PHP iTop transfer program.
+''' tsk_itop - processing OCS Agent Data
+             * check the INBOX directory for compressed OCS Agent files.
+             * unziping the OCS Agent Data Files.
+             * analyzing the unziped XML file.
+             * creating a CVS file out of the XML data file.
+             * calling the PHP iTop transfer program.
 
-    It defines classes_and_methods
 
-    @author:    EJS
-    @copyright: 2018 TBD. All rights reserved.
-    @license:   TBD
-    @contact:   TBD
-    @deffield   
+    This program is part of the Scan2 Suite.
+    https://github.com/dweKNOWLEDGEisFREE
+
+    This program is licensed under the GNU General Public License v3.0
+
+    Copyright 2019 by David Weyand, Ernst Schmid
+
 '''
 
 # Database Structure
@@ -540,12 +541,14 @@ def getDB_ORG_ID__HOST(hName):
         # retrieve data
         res=cursor.fetchone()
         if res!=None:
-            res=res[1]
+            res=res[1],res[0]
             print('tsk_iTop: SQL result org_id['+str(res)+']')
+        else:
+            res=None,None
         # close connection
         cursor.close()
     except mysql.connector.Error as err:
-        res=None
+        res=None,None
         print(err, file=sys.stderr)
         if 'cursor' in locals():
             print(cursor.statement, file=sys.stderr)
@@ -1002,7 +1005,7 @@ def toolUpdate(data):
         vn_virtualhost_id     = DEFAULT_VIRTUALHOST_ID
         vn_managementip_id    = None
         # UPDATE PRESETS
-        if 'CPUS:CORES' in data:
+        if 'CPUS:CORES' in data and data['CPUS:CORES']!=None:
             vn_cpu=data['CPUS:CORES']
         if 'HARDWARE:MEMORY' in data and data['HARDWARE:MEMORY']!=None:
             vn_ram=str(int(data['HARDWARE:MEMORY'])/1024)
@@ -1069,21 +1072,22 @@ def toolUpdate(data):
             cnx.close()
 
 
-    # System Name -> system_id
-    if not 'HARDWARE:NAME' in data:
+    # System Name
+    if not 'HARDWARE:NAME' in data or data['HARDWARE:NAME']==None or len(data['HARDWARE:NAME'])==0:
         return None
-    sys_hn=data['HARDWARE:NAME']
-    # IP Address -> org_id
-    if 'HARDWARE:IPADDR' in data:
+    # HOST NAME -> org_id sys_hn
+    org_id,sys_hn=getDB_ORG_ID__HOST(data['HARDWARE:NAME'])
+    if sys_hn==None:
+        sys_hn=data['HARDWARE:NAME']
+    # IP Address
+    sys_ip=None
+    if 'HARDWARE:IPADDR' in data and data['HARDWARE:IPADDR']!=None and len(data['HARDWARE:IPADDR'])>0:
         sys_ip=data['HARDWARE:IPADDR']
+    # IP Address -> org_id
+    if org_id==None and sys_ip!=None:
         org_id=getDB_ORG_ID__IP(sys_ip)
     # HOST NAME -> org_id
     if org_id==None:
-        sys_ip=None
-        org_id=getDB_ORG_ID__HOST(sys_hn)
-    # HOST NAME -> org_id
-    if org_id==None:
-        sys_ip=None
         org_id=DEFAULT_ORG_ID
     # Create date, time
     now      = datetime.datetime.today()
@@ -1202,6 +1206,7 @@ def toolScanInbox():
     # Process each entry
     for ety in lst:
         # Process
+        print ("tsk_iTop:")
         print ("tsk_iTop: processing DAT file "+ety)
         if toolProcess(ety)<0:
             continue
@@ -1241,8 +1246,8 @@ if __name__ == '__main__':
     if not readConfigFile():
         print ('tsk_itop: ERROR config file - ', cfg_file)
         exit (1)
-    print('tsk_itop: CR iTop  - ', cfg_itop_cr )
-    print('tsk_itop: CR mySQL - ', cfg_mysql_cr)
+#   print('tsk_itop: CR iTop  - ', cfg_itop_cr )
+#   print('tsk_itop: CR mySQL - ', cfg_mysql_cr)
 
     # Bootup Preparations
     err=bootup()

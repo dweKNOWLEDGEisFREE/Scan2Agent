@@ -1,16 +1,17 @@
-#!/usr/bin/python3.5
-# encoding: utf-8
-''' tsk_http -- webserver for receiving OCS Agent Data
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
-    tsk_http acts as web server for uploading zlib stream compressed files.
+''' tsk_http - webserver for receiving OCS Agent Data
+             * acts as web server for uploading zlib stream compressed files.
 
-    It defines classes_and_methods
 
-    @author:    EJS
-    @copyright: 2018 TBD. All rights reserved.
-    @license:   TBD
-    @contact:   TBD
-    @deffield   
+    This program is part of the Scan2 Suite.
+    https://github.com/dweKNOWLEDGEisFREE
+
+    This program is licensed under the GNU General Public License v3.0
+
+    Copyright 2019 by David Weyand, Ernst Schmid
+
 '''
 
 

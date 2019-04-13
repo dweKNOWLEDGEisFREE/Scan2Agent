@@ -1,19 +1,18 @@
-#!/usr/bin/python3.5
-# encoding: utf-8
-''' tsk_cron -- Scan2Agent collector cronjob
-    
-    Scan2Agent will:
- 
-    * Query data from vSphere servers.
-    * CleanUp old log files.
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
-    It defines classes_and_methods
+''' tsk_cron - Scan2Agent collector cronjob
+             * Query data from vSphere servers.
+             * CleanUp old log files.
 
-    @author:     EJS
-    @copyright:  2018 TBD. All rights reserved.
-    @license:    TBD
-    @contact:    TBD
-    @deffield    updated: Updated
+
+    This program is part of the Scan2 Suite.
+    https://github.com/dweKNOWLEDGEisFREE
+
+    This program is licensed under the GNU General Public License v3.0
+
+    Copyright 2019 by David Weyand, Ernst Schmid
+
 '''
 
 # IMPORTS
